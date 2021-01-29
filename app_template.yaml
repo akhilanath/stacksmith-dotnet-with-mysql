@@ -72,7 +72,7 @@ objects:
   metadata:
     annotations:
       kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"${APP_NAME}"},"namespace":"default"},"spec":{"ports":[{"name":"8080-tcp","port":8080,"protocol":"TCP","targetPort":8080}],"selector":{"app":"${APP_NAME}","deploymentconfig":"${APP_NAME}"}},"status":{"loadBalancer":{}}}
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"${APP_NAME}"},"name":"${APP_NAME}","namespace":"default"},"spec":{"ports":[{"name":"8080-tcp","port":8080,"protocol":"TCP","targetPort":8080}],"selector":{"app":"${APP_NAME}","deploymentconfig":"${APP_NAME}"}},"status":{"loadBalancer":{}}}
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp: null
     labels:
@@ -88,8 +88,6 @@ objects:
       targetPort: 8080
     selector:
       app: ${APP_NAME}
-      deployment: ${APP_NAME}
-      deploymentconfig: ${APP_NAME}
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: image.openshift.io/v1
