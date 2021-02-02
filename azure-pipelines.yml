@@ -33,13 +33,7 @@ stages:
     pool:
       vmImageName: $(vmImageName)
     steps:
-    - task: SonarQubePrepare@4
-      inputs:
-        SonarQube: 'sonarqube'
-        scannerMode: 'MSBuild'
-        projectKey: 'stacksmith'
-        projectName: 'stacksmith'
-    - task: SonarQubeAnalyze@4
+        
     - task: oc-cmd@2
       inputs:
         connectionType: 'OpenShift Connection Service'
@@ -63,7 +57,8 @@ stages:
         cmd: 'new-app --template=mysql-ephemeral --param=MYSQL_USER=sample --param=MYSQL_PASSWORD=sample --param=MYSQL_DATABASE=todolist --param=DATABASE_SERVICE_NAME=mysql --name mysql -n $(namespace)'
         uselocalOc: true
         ignoreFlag: true
-      displayName: Deploying Database    
+      displayName: Deploying Database   
+
     - task: oc-cmd@2
       inputs:
         connectionType: 'OpenShift Connection Service'
@@ -84,4 +79,17 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
       displayName: Pushing Build Artifacts
-    
+   
+  - deployment: deploy
+    pool:
+      vmImage: 'Ubuntu-16.04'
+      workspace:
+        clean: all
+    environment: TFG     
+    strategy:
+    # Default deployment strategy, more coming...
+      runOnce:
+        deploy:
+          steps:
+           - checkout: self 
+           - script: echo my first deployment
