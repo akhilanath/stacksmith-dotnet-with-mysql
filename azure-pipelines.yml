@@ -82,22 +82,16 @@ stages:
    
   - deployment: deploy
     pool:
-      vmImage: 'Ubuntu-16.04'
+      vmImage: '$(vmImageName)'
       workspace:
         clean: all
-    environment: TFG     
+    environment: 'TFG'     
     strategy:
     # Default deployment strategy, more coming...
       runOnce:
         deploy:
           steps:
-           - task: KubernetesManifest@0
-             displayName: Deploy to Kubernetes cluster
+           - task: DownloadPipelineArtifact@1
              inputs:
-               action: deploy
-               namespace: $(k8sNamespace)
-               manifests: $(System.ArtifactsDirectory)/manifests/*
-               imagePullSecrets: $(imagePullSecret)
-               containers: $(containerRegistry)/$(imageRepository):$(tag) 
-                     
-  
+              artifactName: 'charts'
+              downloadPath: '$(System.ArtifactsDirectory)/charts'
