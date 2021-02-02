@@ -33,6 +33,13 @@ stages:
     pool:
       vmImageName: $(vmImageName)
     steps:
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'sonarqube'
+        scannerMode: 'MSBuild'
+        projectKey: 'stacksmith'
+        projectName: 'stacksmith'
+    - task: SonarQubeAnalyze@4
     - task: oc-cmd@2
       inputs:
         connectionType: 'OpenShift Connection Service'
